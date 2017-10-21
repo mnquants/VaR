@@ -2,7 +2,6 @@
 
 ## Resources
 1. [Why Log Returns](https://quantivity.wordpress.com/2011/02/21/why-log-returns/)
-2. [R Resources (Free Courses, Books, Tutorials, & Cheatsheets)](https://paulvanderlaken.com/2017/08/10/r-resources-cheatsheets-tutorials-books/)
 
 ## Formula
 VaR = [mean - (Z * sigma)] * pi
