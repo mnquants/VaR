@@ -1,8 +1,8 @@
 # Value at Risk
 # Author: Kyle Loomis
-# Date Updated: 10/17/17
+# Updated: 10/20/17
 # Desc: Framework for calculating 
-#       historical simulation VaR. 
+#       Value at Risk 
 
 
 # Import Quandl library to fetch data
