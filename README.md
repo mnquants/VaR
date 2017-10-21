@@ -17,5 +17,5 @@ Assume the following:
 - sigma = 0.05
 - Z = 1.65
 - pi = $1000.00
-VaR = [0.04 - (1.65 * 0.05)] * $1000.00 = - $42.5 or - 4.25%
-This means we have 95% confidence that over the next year the portfolio will not lose more than $42.5.
+
+Thus, VaR = [0.04 - (1.65 * 0.05)] * $1000.00 = - $42.5 or - 4.25%. This means we have 95% confidence that over the next year the portfolio will not lose more than $42.5.
