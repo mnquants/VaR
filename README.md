@@ -2,8 +2,9 @@
 
 ## Resources
 1. [Why Log Returns](https://quantivity.wordpress.com/2011/02/21/why-log-returns/)
+2. [Value at Risk - Investopedia](http://www.investopedia.com/terms/v/var.asp)
 
-## Formula
+## Formula(s)
 VaR = [mean - (Z * sigma)] * pi
 - mean = Expected portfolio return
 - sigma = Expected portfolio standard deviation
