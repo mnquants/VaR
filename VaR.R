@@ -37,7 +37,7 @@ logReturns <- function(priceTS) {
 #' @param ticker Stocker ticker
 #' @param start Start date - format: "YYYY-MM-DD"
 #' @param end End date - format: "YYYY-MM-DD"
-#' @return Vector of Adjusted close prices
+#' @return Vector of adjusted close prices
 #' @export
 adjClose <- function(ticker, start, end) {
   Quandl(paste0("WIKI/",ticker), start_date=start, end_date=end)[,"Adj. Close"]
@@ -45,14 +45,14 @@ adjClose <- function(ticker, start, end) {
 
 #' Parametric Value at Risk (VaR)
 #' @param mean Mean return of timeseries data
-#' @param sigma Standard deviation value of timeseries data
+#' @param sd Standard deviation value of timeseries data
 #' @param alpha Alpha value for confidence level
-#' @param days Number of days to forecast VaR
+#' @param delta_t Number of days to forecast VaR
 #' @return Vector of Adjusted close prices
 #' @export
-parametricVaR <- function(mean, sigma, alpha, days) {
+parametricVaR <- function(mean, sd, alpha, delta_t) {
   # qnorm function used to calculate z-score
-  return((mean - (qnorm(1-alpha,0,1)*sigma))*sqrt(days))
+  return((mean - (qnorm(1-alpha,0,1)*sd))*sqrt(delta_t))
 }
 
 #' Value at Risk Statistics
@@ -80,10 +80,10 @@ testReturn <- logReturns(testPrices)
 
 # Calculate mean and standard deviation with return vector
 calibrationMean <- mean(calibrationReturn)
-calibrationSigma <- sd(calibrationReturn)
+calibrationSD <- sd(calibrationReturn)
 
 # Calculate VaR with a = 0.05 and time period = 1 day
-calibrationVaR <- parametricVaR(calibrationMean, calibrationSigma, 0.05, 1)
+calibrationVaR <- parametricVaR(calibrationMean, calibrationSD, 0.05, 1)
 
 # Find minimum value in test return time period
 testMin <- min(testReturn)
