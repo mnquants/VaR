@@ -31,9 +31,10 @@ Thus, VaR = [0.04 - (1.65 * 0.05)] * $1000.00 = - $42.5 or - 4.25%. This means w
 
 #### Monte Carlo
 Ri = [mean * (delta_t) + sigma * (epsilon) * (sqrt (delta_t))]
+- Ri = Simulated return on the ith trial
 - mean = Expected portfolio return
 - sigma = Expected portfolio standard deviation
-- delta_t = time (days) to forecast VaR into the future
+- delta_t = periods (typically days) to forecast VaR into the future
 - epsilon = vector of random numbers generated from a normal distribution 
 
 ```
@@ -54,3 +55,14 @@ quantile(sim_returns, a)
 ```
 
 #### Historical Simulation
+Steps: 
+1. Sort vector of log returns for past n days
+2. Index bottom alpha percent of returns
+3. Take maximum value in former indexed vector
+
+Assume a sorted log return vector, v, with the following attributes:
+- n = 100
+- a = 0.05
+- lowest_5 = (-0.50, -0.18, -0.10, -0.08, -0.07)
+
+Thus, the VaR = max(lowest_5) = -0.07. This means we have 95% confidence that over the next period the portfolio will not lose more than 7%.
