@@ -29,10 +29,13 @@ mean <- 0.04          # Expected portfolio return
 sigma <- 0.05         # Expected portfolio standard deviation
 delta_t <- 1          # 1 day forecast
 alpha <- 0.05         # 95% confidence interval
-pi <- 1000.00         # Portflio value = $1,000.00
+pi <- 1000.00         # Portflio value = $1,000.00 
 
 # qnorm function used to calculate z-score
-VaR <- (mean*delta_t - qnorm(1-alpha,0,1)*sigma*sqrt(delta_t))*pi
+VaR <- parametricVaR(mean=mean, sd=sigma, alpha=alpha, delta_t=delta_t)
+
+# Portfolio VaR
+piVaR <- VaR*pi
 ```
 
 Thus, VaR = -$42.5 or -4.25%. This means we have 95% confidence that over the next day the portfolio will not lose more than $42.5.
@@ -46,13 +49,21 @@ Ri = [mean * delta_t + sigma * (epsilon) * (sqrt (delta_t))]
 - epsilon = vector of random numbers generated from a normal distribution 
 
 ```
-n <- 10000            # number of trials
+# Set seed for the rng (random number generator)
+# to get consistent sequence of random numbers
+set.seed(42)
+
+n <- 10000            # number of periods to simulate
 epsilon <- rnorm(n)   # vector of random standard normal distribution values
 mean <- 0.1           # Expected portfolio return
 sigma <- 0.25         # Expected portfolio standard deviation
-delta_t <- 1          # 1 day forecast
+delta_t <- 1          # 1 period VaR forecast
 
-sim_returns <- mean*delta_t + sigma*epsilon*sqrt(delta_t)
+# Call mcVaR function
+sim_returns <- mcVaR(mean=mean, sd=sigma, epsilon=epsilon, delta_t=delta_t)
+
+# Visualize the distribution
+hist(sim_returns, breaks = 100, col = "green")
 ```
 
 As the number of simulated returns increases (n in rnorm(n)), the distribution forecast more closely matches a normal distribution. In order to get the expected VaR given some confidence interval, 1 - a, apply the following function in R:
