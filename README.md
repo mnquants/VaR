@@ -14,7 +14,7 @@
 
 ## Formula(s)
 #### Parametric
-VaR = [mean * delta_t - (Z * sigma * sqrt (delta_t))] * pi
+VaR = mean*delta_t - Z*sigma*sqrt(delta_t)*pi
 - mean = Expected portfolio return
 - sigma = Expected portfolio standard deviation
 - delta_t = periods (typically days) to forecast VaR into the future
