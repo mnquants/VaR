@@ -17,17 +17,24 @@
 VaR = [mean - (Z * sigma)] * pi
 - mean = Expected portfolio return
 - sigma = Expected portfolio standard deviation
+- delta_t = periods (typically days) to forecast VaR into the future
 - Z = Z-Score of (1 - a), where a is the confidence level
-- pi = Portfolio value
+- pi = Portfolio value (optional)
+
 
 Assume an initial portfolio value of $1000.00. Assume we have a 95% confidence level (a = 0.05). 
 Assume the following:
-- mean = 0.04
-- sigma = 0.05
-- Z = 1.65
-- pi = $1000.00
+```
+mean <- 0.04          # Expected portfolio return
+sigma <- 0.05         # Expected portfolio standard deviation
+delta_t <- 1          # 1 day forecast
+alpha <- 0.05         # 95% confidence interval
+pi <- 1000.00         # Portflio value = $1,000.00
 
-Thus, VaR = [0.04 - (1.65 * 0.05)] * $1000.00 = - $42.5 or - 4.25%. This means we have 95% confidence that over the next year the portfolio will not lose more than $42.5.
+VaR <- (mean*delta_t - qnorm(1-alpha,0,1)*sigma*sqrt(delta_t))*pi
+```
+
+Thus, VaR = -$42.5 or -4.25%. This means we have 95% confidence that over the next day the portfolio will not lose more than $42.5.
 
 #### Monte Carlo
 Ri = [mean * (delta_t) + sigma * (epsilon) * (sqrt (delta_t))]
