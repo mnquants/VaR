@@ -31,6 +31,7 @@ delta_t <- 1          # 1 day forecast
 alpha <- 0.05         # 95% confidence interval
 pi <- 1000.00         # Portflio value = $1,000.00
 
+# qnorm function used to calculate z-score
 VaR <- (mean*delta_t - qnorm(1-alpha,0,1)*sigma*sqrt(delta_t))*pi
 ```
 
