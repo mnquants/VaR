@@ -1,6 +1,6 @@
 # Value at Risk Testing
 # Author: Kyle Loomis
-# Updated: 10/20/17
+# Updated: 10/31/17
 # Desc: Testing Value at Risk
 #       techniques
 
@@ -42,4 +42,4 @@ testMin <- min(testReturn)
 # If abs(calibrationVaR) > abs(testMin), then
 # VaR doesn't account for return during testing phase
 # (lies outside predicted range)
-print(VaRStats(calibrationVaR, testMin))
+print(varStats(pVaR, testMin))
