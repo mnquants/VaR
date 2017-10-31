@@ -14,7 +14,7 @@
 
 ## Formula(s)
 #### Parametric
-VaR = [mean - (Z * sigma)] * pi
+VaR = [mean * delta_t - (Z * sigma * sqrt (delta_t))] * pi
 - mean = Expected portfolio return
 - sigma = Expected portfolio standard deviation
 - delta_t = periods (typically days) to forecast VaR into the future
@@ -37,7 +37,7 @@ VaR <- (mean*delta_t - qnorm(1-alpha,0,1)*sigma*sqrt(delta_t))*pi
 Thus, VaR = -$42.5 or -4.25%. This means we have 95% confidence that over the next day the portfolio will not lose more than $42.5.
 
 #### Monte Carlo
-Ri = [mean * (delta_t) + sigma * (epsilon) * (sqrt (delta_t))]
+Ri = [mean * delta_t + sigma * (epsilon) * (sqrt (delta_t))]
 - Ri = Simulated return on the ith trial
 - mean = Expected portfolio return
 - sigma = Expected portfolio standard deviation
@@ -57,8 +57,8 @@ sim_returns <- mean*delta_t + sigma*epsilon*sqrt(delta_t)
 As the number of simulated returns increases (n in rnorm(n)), the distribution forecast more closely matches a normal distribution. In order to get the expected VaR given some confidence interval, 1 - a, apply the following function in R:
 
 ```
-a <- c(0.01,0.05)
-quantile(sim_returns, a)
+a_vals <- c(0.01,0.05)  
+quantile(sim_returns, a_vals)
 ```
 
 #### Historical Simulation
