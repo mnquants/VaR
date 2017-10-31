@@ -43,3 +43,4 @@ testMin <- min(testReturn)
 # VaR doesn't account for return during testing phase
 # (lies outside predicted range)
 print(varStats(pVaR, testMin))
+
