@@ -85,3 +85,14 @@ Assume a sorted log return vector, v, with the following attributes:
 - lowest_5 = (-0.50, -0.18, -0.10, -0.08, -0.07)
 
 Thus, the VaR = max(lowest_5) = -0.07. This means we have 95% confidence that over the next period the portfolio will not lose more than 7%.
+
+## To Do
+1. Rename and document portfolio dataframe
+2. Program function for Historical Simulation technique
+3. Program Conditional VaR (CVaR) function
+4. Add portfolio weights into VaR calculation
+5. Document VaR functions
+6. Write Bloomberg API data import functions
+7. Research techniques to apply VaR to Fixed-Income Portfolio
+8. Test VaR for CFE Portfolios
+9. Analyze and document results of VaR test in (8.)
