@@ -16,7 +16,6 @@ testReturn <- logReturns(testPrices)
 calibrationMean <- mean(calibrationReturn)
 calibrationSD <- sd(calibrationReturn)
 
-
 alpha <- 0.05         # Alpha value
 delta_t <- 1          # 1 period VaR forecast 
 set.seed(42)          # Set seed for RNG
@@ -27,11 +26,10 @@ sim_returns <- monteCarlo(mean=calibrationMean, sd=calibrationSD,
                           epsilon=epsilon, delta_t=delta_t)
 
 hist(sim_returns, breaks = 100, col = "green") # Visualize distribution
-
+quantile(sim_returns, alpha) # Calculate VaR using quantile function
 
 pVaR <- parametric(mean=calibrationMean, sd=calibrationSD, 
                              alpha=alpha, delta_t=delta_t)
-
 
 # Find minimum value in test return time period
 testMin <- min(testReturn)
@@ -41,4 +39,3 @@ testMin <- min(testReturn)
 # VaR doesn't account for return during testing phase
 # (lies outside predicted range)
 print(varStats(pVaR, testMin))
-
