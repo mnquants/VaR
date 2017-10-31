@@ -41,7 +41,7 @@ piVaR <- VaR*pi
 Thus, VaR = -$42.5 or -4.25%. This means we have 95% confidence that over the next day the portfolio will not lose more than $42.5.
 
 #### Monte Carlo
-Ri = [mean * delta_t + sigma * (epsilon) * (sqrt (delta_t))]
+Ri = mean * delta_t + sigma * epsilon * sqrt(delta_t)
 - Ri = Simulated return on the ith trial
 - mean = Expected portfolio return
 - sigma = Expected portfolio standard deviation
