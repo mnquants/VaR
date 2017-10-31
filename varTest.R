@@ -5,8 +5,6 @@
 #       techniques
 
 
-library(Quandl)
-
 # ----------------- TESTING ----------------- 
 
 calibrationPrices <- adjClose("NVDA",start="2002-09-15", "2007-09-14")
