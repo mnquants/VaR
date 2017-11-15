@@ -5,7 +5,7 @@
 #       Value at Risk methods
 
 
-#' Parametric Value at Risk
+#' Parametric
 #' @param mean Mean return of timeseries data
 #' @param sd Standard deviation value of timeseries data
 #' @param alpha Alpha value for confidence level
@@ -17,7 +17,7 @@ parametric <- function(mean, sd, alpha, delta_t) {
   return((mean - (qnorm(1-alpha,0,1)*sd))*sqrt(delta_t))
 }
 
-#' Monte Carlo Value at Risk
+#' Monte Carlo
 #' @param mean Sample mean return
 #' @param sd Sample standard deviation return
 #' @param epsilon Vector of random normal distribution values
@@ -26,6 +26,15 @@ parametric <- function(mean, sd, alpha, delta_t) {
 #' @export
 monteCarlo <- function(mean, sd, epsilon, delta_t) {
   return(mean*delta_t + sd*epsilon*sqrt(delta_t))
+}
+
+#' Historical Simulation
+#' @param alpha Alpha value for confidence level
+#' @param histP Vector of historical prices
+#' @return Max of lowest alpha*100 of histP
+#' @export
+historicalSim <- function(alpha, histP) {
+  max((sort(histP))[1:(alpha*length(histP))])
 }
 
 #' Value at Risk Statistics

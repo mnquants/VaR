@@ -7,30 +7,50 @@
 
 # ----------------- TESTING ----------------- 
 
-calibrationPrices <- adjClose("NVDA",start="2002-09-15", "2007-09-14")
-testPrices <- adjClose("NVDA",start="2007-09-15", "2009-09-15")
+tickers <- c("AMD","NVDA")
 
-calibrationReturn <- logReturns(calibrationPrices)
-testReturn <- logReturns(testPrices)
+# calibration - adjusted closing prices
+cPrices <- quandlList(tickers,start="2002-09-15",end="2015-09-14")
+cAdjCL <- idxList(cPrices)
 
-calibrationMean <- mean(calibrationReturn)
-calibrationSD <- sd(calibrationReturn)
+# test - adjusted closing prices
+tPrices <- quandlList(tickers,start="2007-09-15", "2009-09-15")
+tAdjCL <- idxList(tPrices)
+
+
+cLogRet <- logReturnsTTR(cAdjCL, list=TRUE)
+tLogRet <- logReturnsTTR(tAdjCL, list=TRUE)
+
+assetMuSd(cAdjCL)
+assetMuSd(tAdjCL)
+
+cMean <- mean(cLogRet[["AMD"]])
+cSD <- sd(cLogRet[["AMD"]])
 
 alpha <- 0.05         # Alpha value
 delta_t <- 1          # 1 period VaR forecast 
 set.seed(42)          # Set seed for RNG
-n <- 10000            # Number of periods to simulate
-epsilon <- rnorm(n)   # Vector of random standard normal distribution values
 
-sim_returns <- monteCarlo(mean=calibrationMean, sd=calibrationSD, 
-                          epsilon=epsilon, delta_t=delta_t)
+sim_returns <- monteCarlo(mean=cMean, sd=cSD, 
+                          epsilon=rnorm(100000), delta_t=delta_t)
 
 hist(sim_returns, breaks = 100, col = "green") # Visualize distribution
 quantile(sim_returns, alpha) # Calculate VaR using quantile function
 
-pVaR <- parametric(mean=calibrationMean, sd=calibrationSD, 
+pVaR <- parametric(mean=cMean, sd=cSD, 
                              alpha=alpha, delta_t=delta_t)
 
+pVaR
+
+head(sort(c(cLogRet[["AMD"]])))
+historicalSim(0.01,cLogRet[["AMD"]])
+
+max(sort(cLogRet[["AMD"]]))
+
+sort(head(cLogRet[["AMD"]]))
+
+
+[1:(alpha*length(histP))])
 # Find minimum value in test return time period
 testMin <- min(testReturn)
 
