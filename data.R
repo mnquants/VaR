@@ -65,3 +65,4 @@ logReturn.MuSd.Port <- function(dFm.MuSd, weight = 1, cor = NA) {
   tmp.Sd <- sqrt(crossprod( t(dFm.Sd[, "Mean"]), cor) %*% dFm.Sd[, "Mean"])
   return(c(tmp.mu, tmp.Sd))
 }
+
