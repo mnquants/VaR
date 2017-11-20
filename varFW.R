@@ -34,11 +34,11 @@ monteCarlo <- function(mean, sd, n, delta_t) {
 
 #' Historical Simulation
 #' @param alpha Alpha value for confidence level
-#' @param histP Vector of historical prices
+#' @param histRet Vector of historical returns
 #' @return Max of lowest alpha*100 of histP
 #' @export
-historicalSim <- function(alpha, histP) {
-  max((sort(histP))[1:(alpha*length(histP))])
+historicalSim <- function(alpha, histRet) {
+  max((sort(coredata(histRet)))[1:(alpha*length(histRet))])
 }
 
 #' Value at Risk Statistics

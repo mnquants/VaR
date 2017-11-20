@@ -4,29 +4,32 @@
 # Desc: Testing Value at Risk
 #       techniques
 
+# imports
+library(Quandl)
+library(TTR)
+library(PerformanceAnalytics)
 
 # ----------------- TESTING ----------------- 
 
-processData <- function() {
-  tickers <- c("AMD","NVDA")
-  
-  # calibration - adjusted closing prices
-  cPrices <- quandlList(tickers,start="2002-09-15",end="2015-09-14")
-  cAdjCL <- idxList(cPrices)
-  
-  # test - adjusted closing prices
-  tPrices <- quandlList(tickers,start="2007-09-15", "2009-09-15")
-  tAdjCL <- idxList(tPrices)
-  
-  cLogRet <- logReturnsTTR(cAdjCL, list=TRUE)
-  tLogRet <- logReturnsTTR(tAdjCL, list=TRUE)
-}
+tickers <- c("AMD","NVDA")
+
+# calibration - adjusted closing prices
+cPrices <- quandlList(tickers,start="2002-09-15",end="2015-09-14")
+cAdjCL <- idxList(cPrices)
+
+# test - adjusted closing prices
+tPrices <- quandlList(tickers,start="2007-09-15", "2009-09-15")
+tAdjCL <- idxList(tPrices)
+
+cLogRet <- logReturnsTTR(cAdjCL, list=TRUE)
+tLogRet <- logReturnsTTR(tAdjCL, list=TRUE)
+
 
 assetMuSd(cAdjCL)
 assetMuSd(tAdjCL)
 
-cMean <- mean(cLogRet[["AMD"]])
-cSD <- sd(cLogRet[["AMD"]])
+cAMDMean <- mean(cLogRet[["AMD"]])
+cAMDSD <- sd(cLogRet[["AMD"]])
 
 
 alpha <- 0.05         # Alpha value
@@ -40,10 +43,15 @@ sim_returns <- monteCarlo(mean=cMean, sd=cSD,
 hist(sim_returns, breaks = 100, col = "green") # Visualize distribution
 quantile(sim_returns, alpha) # Calculate VaR using quantile function
 
-pVaR <- parametric(mean=cMean, sd=cSD, 
-                             alpha=alpha, delta_t=delta_t, ES=FALSE)
+# When ES = TRUE, give CVaR or Expected Shortfall
+parametric(mean=cAMDMean, sd=cAMDSD, alpha=alpha, 
+           delta_t=delta_t, ES=TRUE)
 
-pVaR
+# Compare to Performance Analytics package
+ES(cLogRet[["AMD"]], p=0.95,method="gaussian")
+
+# historical simulation method
+historicalSim(alpha,cLogRet[["AMD"]])
 
 # Find minimum value in test return time period
 testMin <- min(testReturn)
@@ -54,22 +62,11 @@ testMin <- min(testReturn)
 # (lies outside predicted range)
 print(varStats(pVaR, testMin))
 
-# Performance Analytics package
-ES(cLogRet[["AMD"]], p=0.95)
-
-# from Ted Xu
-n = 1000000 # number of simulations
-montecarlo_alpha = runif(n, min = 0, max = alpha)
-VaR <- parametric(mean=mean, sd=sigma, alpha=montecarlo_alpha, delta_t=delta_t)
-CVaR = sum(VaR) / n
-
-parametricCVaR(cMean,cSD, 0.05, 1)
-parametric(cMean,cSD,0.05,1,ES=TRUE)
 
 
-head(sort(c(cLogRet[["AMD"]])))
-historicalSim(0.01,cLogRet[["AMD"]])
+# ----------------- ALTERNATIVE PARAMETRIC CVAR ----------------- 
 
-max(sort(cLogRet[["AMD"]]))
-
-sort(head(cLogRet[["AMD"]]))
+# By Ted Xu 
+montecarlo_alpha = runif(n_trials, min = 0, max = alpha)
+VaR <- parametric(mean=cAMDMean, sd=cAMDSD, alpha=montecarlo_alpha, delta_t=delta_t)
+CVaR <- sum(VaR) / n_trials

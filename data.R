@@ -3,8 +3,6 @@
 # Updated: 11/9/17
 # Desc: Data handling functions 
 
-library(Quandl)
-library(TTR)
 
 #' Log Returns with TTR package
 #' @param x Time series to be converted
@@ -57,6 +55,8 @@ assetMuSd <- function(pricesList){
   })
   return(t(data))
 }
+
+# ----------------- TO ADD ----------------- 
 
 # function to generate mean and sd of the logReturn for the portfolio
 logReturn.MuSd.Port <- function(dFm.MuSd, weight = 1, cor = NA) {
