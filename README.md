@@ -12,6 +12,7 @@
 9. [Portfolio & Risk Analytics - Bloomberg Terminal](https://www.bloomberg.com/professional/product/portfolio-risk-analytics/)
 10. [Risk Management for Fixed Income Portfolios - Credit Suisse](https://www.credit-suisse.com/media/am/docs/asset_management/events/2014/fits2014-program/3-5-2-traband-risk-management.pdf)
 11. [Fixed Income VaR - Krzysztof Ostaszewski](https://math.illinoisstate.edu/krzysio/MAT483/ValueAtRisk.pdf)
+12. [Manipulating Time Series Data in R with xts & zoo - RPubs](https://rpubs.com/mohammadshadan/288218)
 
 ## Formula(s)
 #### Parametric
