@@ -37,7 +37,7 @@ monteCarlo <- function(mean, sd, n, delta_t) {
 #' @param histRet Vector of historical returns
 #' @return Max of lowest alpha*100 of histP
 #' @export
-historicalSim <- function(alpha, histRet) {
+historicalSim <- function(histRet, alpha) {
   max((sort(coredata(histRet)))[1:(alpha*length(histRet))])
 }
 
@@ -50,4 +50,21 @@ varStats <- function(calibrationVaR, testMin) {
   stats <- c(calibrationVaR, testMin) 
   names(stats) <- c("Calibrated VaR","Minumum Return")
   return(stats)
+}
+
+#' Value at Risk 
+#' @param vLogReturn Vector of Log Returns
+#' @param alpha Confidence level
+#' @param n Number of iterations. Default: 1000000
+#' @param delta_t Time to forecast value at risk. Default: 1
+#' @param method Method of calculation. Default: parametric. (montecarlo, historical)
+#' @param ES Expected Shortfall (Conditional VaR). Default: FALSE
+#' @return Value at Risk for function chosen by user
+#' @export 
+VaR <- function(vLogReturn, alpha=0.05, n=1000000, delta_t=1,
+  method="parametric", ES=FALSE) {
+  if (method=="historical") { historicalSim(vLogReturn,alpha) }
+  else if (method=="montecarlo") { quantile(monteCarlo(mean(vLogReturn),sd(vLogReturn),n,delta_t),alpha) }
+  # default case: parametric
+  else if (method=="parametric") { parametric(mean(vLogReturn),sd(vLogReturn),alpha,delta_t,ES) }
 }

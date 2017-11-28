@@ -56,6 +56,9 @@ assetMuSd <- function(pricesList){
   return(t(data))
 }
 
+
+
+
 # ----------------- TO ADD ----------------- 
 
 # function to generate mean and sd of the logReturn for the portfolio
