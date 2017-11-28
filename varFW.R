@@ -52,14 +52,14 @@ varStats <- function(calibrationVaR, testMin) {
   return(stats)
 }
 
-#' Value at Risk 
+#' Value at Risk Wrapper Function
 #' @param vLogReturn Vector of Log Returns
 #' @param alpha Confidence level
 #' @param n Number of iterations. Default: 1000000
 #' @param delta_t Time to forecast value at risk. Default: 1
 #' @param method Method of calculation. Default: parametric. (montecarlo, historical)
 #' @param ES Expected Shortfall (Conditional VaR). Default: FALSE
-#' @return Value at Risk for function chosen by user
+#' @return Value at Risk value
 #' @export 
 VaR <- function(vLogReturn, alpha=0.05, n=1000000, delta_t=1,
   method="parametric", ES=FALSE) {
