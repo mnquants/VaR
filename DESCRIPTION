@@ -1,0 +1,13 @@
+Package: VaR
+Title: Portfolio Value at Risk
+Version: 0.0.0.9000
+Authors@R: person("Kyle", "Loomis", email = "loomi104@umn.edu", role = c("aut", "cre"))
+Description: Calculate Value at Risk for an asset or portfolio. 
+             Select Parametric, Monte Carlo, or Historical Simulation
+             methods for gaussian VaR or Conditional VaR.Integrates 
+             asset correlation in calculation. 
+Depends: R (>= 3.4.2)
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
