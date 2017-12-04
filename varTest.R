@@ -52,3 +52,47 @@ print(varStats(pVaR, testMin))
 montecarlo_alpha = runif(n_trials, min = 0, max = alpha)
 VaR <- parametric(mean=cAMDMean, sd=cAMDSD, alpha=montecarlo_alpha, delta_t=delta_t)
 CVaR <- sum(VaR) / n_trials
+
+
+# ----------------- PARAMETRIC PORTFOLIO ----------------- 
+# incorporates asset correlation in a portfolio to calculate 
+# mean return and standard deviation
+# Task: 
+# 1. separate portfolio correlation functionality from function
+#    with a goal of making it generalizable for other applications
+# 2. document function to incorporate into package
+
+
+#' Parametric_Portfolio 
+#' @param mean Mean return of timeseries data
+#' @param sd Standard deviation value of timeseries data
+#' @param alpha Alpha value for confidence level
+#' @param delta_t Number of days to forecast VaR
+#' @param to calculate VaR when ES is set to FALSE (defalut); otherwise, to calculate CVaR
+#' @param the function calculates VaR for one assest when Port is set to FALSE(default); otherwise, it will return VaR for a portfolio of more than one assest
+#' @param the weights (vector) of assests in the portfolio should sum up to 1, with equal weights as default
+#' @param corMat is correlation matrix of assets in the portfolio, with identity matrix as default
+#' @return Vector of Adjusted close prices
+parametric <- function(mean, sd, alpha, delta_t, ES=FALSE, Port = FALSE, weights = NULL, corMat = NULL) {
+  
+  if(!Port){
+    numAssets <- length(mean)
+    if (weights == NULL) weights = rep(1, numAssets)/ numAssets
+    if (corMat == NULL) corMat = diag(rep(1, numAssets))
+    mean <- sum(mean*weights)
+    sd <- sqrt(weights)*sd
+    sd <- sum(sd*crossprod(corMat, sd))
+  }
+  
+  # qnorm function used to calculate z-score
+  parametric2 <- function(alpha) {
+    
+    # Modification 1: in the Github, pi should not be involved when calculating VaR in % but not $
+    return (mean*delta_t - qnorm(1-alpha,0,1)*sd*sqrt(delta_t))
+    # return((mean - (qnorm(1-alpha,0,1)*sd))*sqrt(delta_t))
+  }
+  if (ES) { return(integrate(parametric2, 0, alpha)$value / alpha) }
+  else { return(parametric2(alpha)) }
+  
+  
+}
